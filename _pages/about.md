@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "About Jaehyun Jun"
+title: "About me"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -8,9 +8,27 @@ redirect_from:
   - /about.html
 ---
 
-Experiences & Educations
-======
-* Research Engineer, in Vision AI Labs, SK Telecom, present
-* M.S. in Neuroscience, Seoul National University, 2019
-* Software Engineer, in Ultrasound Development group, Samsung Electronics Co., Ltd., 2015
-* B.S. in Biomedical Engineering, Hanyang University, 2013
+I am mainly working with researching, developing, and deploying the state-of-the-art Deep Learning models, especially for vision tasks. 
+
+## Experiences & Educations
+
+### SK Telecom
+2019 - Present<br/>
+Research Engineeer<br/>
+Vision AI Labs
+
+### Seoul National University
+2017 - 2019<br/>
+Master's degree
+Interdisciplinary Program in Neuroscience<br/>
+Bio-intelligence laboratory, advised by [Prof. Byoung-Tak Zhang](https://bi.snu.ac.kr/~btzhang/)
+
+### Samsung Electronics Co., Ltd.
+2013 - 2015<br/>
+Software Engineer
+Ultrasound Development Group
+
+### Hanyang University
+2006 - 2013
+Bachelor's degree
+Biomedical Engineering
