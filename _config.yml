@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Research Engineer"
   avatar           : "images/profile_jun.png"
-  bio              : "Researcher, developer, and deployer the state-of-the-art Deep Learning models, especially for vision tasks"
+  bio              : "Researching, developing, and deploying the state-of-the-art Deep Learning models, especially for vision tasks"
   location         : "Seoul, Republic of Korea"
   employer         :
   pubmed           : # "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
@@ -96,13 +96,13 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "https://github.com/btjhjeon"
+  github           : "btjhjeon"
   google_plus      :
   keybase          :
   instagram        :
   impactstory      : # "https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
-  linkedin         : "https://www.linkedin.com/in/jaehyun-jun-952666ab/"
+  linkedin         : "jaehyun-jun-952666ab/"
   orcid            : # "http://orcid.org/yourorcidurl"
   pinterest        :
   soundcloud       :
