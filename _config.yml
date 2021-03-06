@@ -81,7 +81,7 @@ analytics:
 # Site Author
 author:
   name             : "Research Engineer"
-  avatar           : "profile_jun.png"
+  avatar           : "images/profile_jun.png"
   bio              : "Researcher, developer, and deployer the state-of-the-art Deep Learning models, especially for vision tasks"
   location         : "Seoul, Republic of Korea"
   employer         :
