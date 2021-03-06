@@ -25,10 +25,10 @@ Bio-intelligence laboratory, advised by [Prof. Byoung-Tak Zhang](https://bi.snu.
 
 ### Samsung Electronics Co., Ltd.
 2013 - 2015<br/>
-Software Engineer
+Software Engineer<br/>
 Ultrasound Development Group
 
 ### Hanyang University
-2006 - 2013
-Bachelor's degree
+2006 - 2013<br/>
+Bachelor's degree<br/>
 Biomedical Engineering
