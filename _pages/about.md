@@ -10,19 +10,8 @@ redirect_from:
 
 I am mainly working with researching, developing, and deploying the state-of-the-art Deep Learning models, especially for vision tasks. 
 
-## Educations
-### Seoul National University
-2017 - 2019<br/>
-Master's degree<br/>
-Interdisciplinary Program in Neuroscience<br/>
-Bio-intelligence laboratory, advised by [Prof. Byoung-Tak Zhang](https://bi.snu.ac.kr/~btzhang/)
 
-### Hanyang University
-2006 - 2013<br/>
-Bachelor's degree<br/>
-Biomedical Engineering
-
-## Experiences
+## Work Experiences
 ### SK Telecom
 2019 - Present<br/>
 Research Engineeer<br/>
@@ -38,6 +27,19 @@ Developing measurement S/W platform for ultrasound diagnostic instruments
 2012<br/>
 Software Engineer<br/>
 Developing creative software applications
+
+
+## Educations
+### Seoul National University
+2017 - 2019<br/>
+Master's degree<br/>
+Interdisciplinary Program in Neuroscience<br/>
+Bio-intelligence laboratory, advised by [Prof. Byoung-Tak Zhang](https://bi.snu.ac.kr/~btzhang/)
+
+### Hanyang University
+2006 - 2013<br/>
+Bachelor's degree<br/>
+Biomedical Engineering
 
 
 ## International Conference Papers
@@ -62,3 +64,23 @@ Developing creative software applications
 - Cheolho Han, Sang-Woo Lee, Yujung Heo, Wooyoung Kang, **Jaehyun Jun**, Byoung-Tak Zhang. Criteria for Human-Compatible AI in Two-Player Vision-Language Tasks. IJCAI 2017 Workshop on Linguistic and Cognitive Approaches to Dialog Agents (LaCATODA), 2017.
 
 - Cheolho Han, Yujung Heo, Wooyoung Kang, **Jaehyun Jun**, Byoung-Tak Zhang. Attention memory for locating an object through visual dialogue. CVPR Workshop on VQA Challenge, 2017.
+
+
+## Awards
+### Visual Question Answering challenge 2018
+June, 2018<br/>
+Title: Bilinear Attention Networks for Visual Question Answering<br/>
+1st winner for single models<br/>
+2nd runners-up for ensemble models
+
+### 정보과학회 KCC 2017 우수발표논문상
+July, 2017<br/> 
+Title: GuessWhat 게임을 위한 주의적 목표지향 질문 생성 모델
+
+### 한국 IT 전문가협회 글로벌 SW 공모대전 동상 수상
+November, 2012<br/>
+Title: SIP 프로토콜을 이용한 Media Conference
+
+### 학과주최 졸업논문 공모전 장려상 수상
+November, 2012<br/>
+Title: Development of a Neurofeedback System
