@@ -8,14 +8,14 @@ redirect_from:
   - /about.html
 ---
 
-I am mainly working with researching, developing, and deploying the state-of-the-art Deep Learning models, especially for vision tasks. 
+I am currently focused on developing Multimodal Large Language Models (MLLM), building on my research background in Visual Question Answering (VQA). My experience spans both Computer Vision, Object Detection & Segmentation, and Language Modeling tasks such as personalized dialogue and instruction tuning. I am particularly interested in expanding model modalities toward omni model architectures and exploring the application of multimodal LLMs for AI agent development.
 
 
 ## Work Experiences
 ### SK Telecom
-2019 - Present<br/>
-Research Engineeer<br/>
-Vision AI Labs
+2019 (from SK T-Brain) - Present<br/>
+AI Engineeer<br/>
+Foundation Model team
 
 ### Samsung Electronics Co., Ltd.
 2013 - 2015<br/>
