@@ -1,0 +1,13 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ProjectDetailView from '../../components/ProjectDetailView.astro';
+import { getProjectSlugs } from '../../utils/collections';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const slugs = await getProjectSlugs();
+  return slugs.map((slug) => ({ params: { slug }, props: { slug } }));
+};
+
+const { slug } = Astro.props as { slug: string };
+---
+<ProjectDetailView locale="en" slug={slug} />

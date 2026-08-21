@@ -1,0 +1,84 @@
+---
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import { formatPeriod } from '../utils/date';
+import type { ProjectEntry } from '../utils/collections';
+
+interface Props {
+  locale: Locale;
+  data: ProjectEntry['data'];
+}
+
+const { locale, data } = Astro.props;
+const t = useTranslations(locale);
+
+const period = formatPeriod(data.startDate, data.endDate, locale, t('project.ongoing'));
+
+const KIND_ICON: Record<string, string> = {
+  github: '⌥',
+  huggingface: '🤗',
+  paper: '📄',
+  demo: '▶',
+  blog: '✎',
+  press: '📰',
+  other: '↗',
+};
+---
+
+<dl class="grid gap-x-4 gap-y-2 text-sm sm:grid-cols-[max-content_1fr]">
+  <dt class="font-medium" style="color: var(--color-muted);">{t('project.period')}</dt>
+  <dd>{period}</dd>
+
+  {
+    data.org && (
+      <>
+        <dt class="font-medium" style="color: var(--color-muted);">{t('project.org')}</dt>
+        <dd>{data.org}</dd>
+      </>
+    )
+  }
+
+  {
+    data.role && (
+      <>
+        <dt class="font-medium" style="color: var(--color-muted);">{t('project.role')}</dt>
+        <dd>{data.role}</dd>
+      </>
+    )
+  }
+
+  {
+    data.links.length > 0 && (
+      <>
+        <dt class="font-medium" style="color: var(--color-muted);">{t('project.links')}</dt>
+        <dd>
+          <ul class="flex flex-wrap gap-x-4 gap-y-1">
+            {data.links.map((link) => (
+              <li>
+                <a href={link.url} rel="noopener" class="no-underline hover:underline">
+                  <span aria-hidden="true">{KIND_ICON[link.kind] ?? KIND_ICON.other}</span>
+                  {' '}{link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </>
+    )
+  }
+</dl>
+
+{
+  data.tags.length > 0 && (
+    <ul class="mt-4 flex flex-wrap gap-2">
+      {data.tags.map((tag) => (
+        <li
+          class="rounded-full border px-2.5 py-0.5 text-xs"
+          style="border-color: var(--color-border); color: var(--color-muted);"
+        >
+          {tag}
+        </li>
+      ))}
+    </ul>
+  )
+}

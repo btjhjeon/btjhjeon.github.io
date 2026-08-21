@@ -1,0 +1,46 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { bcp47, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  /** locale 접두사를 제외한 논리 경로. hreflang과 언어 스위처가 이 값을 쓴다. */
+  path: string;
+  title?: string;
+  description?: string;
+}
+
+const { locale, path, title, description } = Astro.props;
+const t = useTranslations(locale);
+
+// Astro 정적 빌드는 빌드 시점에 한 번만 평가된다.
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang={bcp47[locale]}>
+  <head>
+    <BaseHead locale={locale} path={path} title={title} description={description} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:px-3 focus:py-2"
+      style="background: var(--color-surface); color: var(--color-fg);"
+    >
+      {t('nav.skipToContent')}
+    </a>
+
+    <Header locale={locale} path={path} />
+
+    <main id="main" class="mx-auto w-full max-w-3xl flex-1 px-5 py-10">
+      <slot />
+    </main>
+
+    <Footer locale={locale} year={year} />
+  </body>
+</html>

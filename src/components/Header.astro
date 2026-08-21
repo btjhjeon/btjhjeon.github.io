@@ -1,0 +1,65 @@
+---
+import { localizePath, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import { meta } from '../site.config';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  locale: Locale;
+  /** locale 접두사를 제외한 현재 논리 경로 */
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const t = useTranslations(locale);
+
+const nav = [
+  { key: 'nav.about' as const, path: '/' },
+  { key: 'nav.projects' as const, path: '/projects/' },
+];
+
+const isCurrent = (target: string) =>
+  target === '/' ? path === '/' : path.startsWith(target);
+---
+
+<header
+  class="border-b"
+  style="border-color: var(--color-border);"
+>
+  <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-5 py-4">
+    <a
+      href={localizePath(locale, '/')}
+      class="font-semibold tracking-tight no-underline"
+      style="color: var(--color-fg);"
+    >
+      {meta[locale].title}
+    </a>
+
+    <div class="flex items-center gap-4">
+      <nav aria-label="Main">
+        <ul class="flex items-center gap-4 text-sm">
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={localizePath(locale, item.path)}
+                  aria-current={isCurrent(item.path) ? 'page' : undefined}
+                  class="no-underline transition-colors"
+                  style={`color: ${isCurrent(item.path) ? 'var(--color-fg)' : 'var(--color-muted)'}; ${isCurrent(item.path) ? 'font-weight:600;' : ''}`}
+                >
+                  {t(item.key)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <LanguageSwitcher locale={locale} path={path} />
+        <ThemeToggle />
+      </div>
+    </div>
+  </div>
+</header>

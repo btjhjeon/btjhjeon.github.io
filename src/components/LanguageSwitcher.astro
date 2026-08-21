@@ -1,0 +1,26 @@
+---
+import { defaultLocale, locales, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** locale 접두사를 제외한 논리 경로 */
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const t = useTranslations(locale);
+
+const other = locales.find((l) => l !== locale) ?? defaultLocale;
+const href = other === defaultLocale ? path : `/${other}${path}`;
+---
+
+<a
+  href={href}
+  aria-label={t('lang.switchAria')}
+  hreflang={other === 'ko' ? 'ko-KR' : 'en'}
+  class="rounded border px-2 py-1 text-sm transition-colors hover:bg-[var(--color-surface)]"
+  style="border-color: var(--color-border); color: var(--color-muted);"
+>
+  {t('lang.switch')}
+</a>

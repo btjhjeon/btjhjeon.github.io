@@ -1,0 +1,67 @@
+---
+import { bcp47, defaultLocale, locales, type Locale } from '../i18n/config';
+import { meta, site } from '../site.config';
+
+interface Props {
+  locale: Locale;
+  /** locale 접두사를 제외한 논리 경로. 예: '/', '/projects/', '/projects/foo/' */
+  path: string;
+  title?: string;
+  description?: string;
+}
+
+const { locale, path, title, description } = Astro.props;
+
+const m = meta[locale];
+const pageTitle = title ? `${title} · ${m.title}` : `${m.title} — ${m.tagline}`;
+const pageDescription = description ?? m.description;
+
+const canonical = new URL(Astro.url.pathname, site.url);
+const ogImage = new URL('/og-default.png', site.url);
+
+/** hreflang용: 각 locale의 같은 페이지 URL */
+const alternates = locales.map((l) => ({
+  hreflang: bcp47[l],
+  href: new URL(l === defaultLocale ? path : `/${l}${path}`, site.url).href,
+}));
+const xDefault = new URL(path, site.url).href;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+<meta name="author" content={m.title} />
+
+<link rel="canonical" href={canonical} />
+{alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+<link rel="alternate" hreflang="x-default" href={xDefault} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={m.title} />
+<meta property="og:locale" content={locale === 'ko' ? 'ko_KR' : 'en_US'} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={ogImage} />
+
+<script is:inline>
+  // 다크모드: 저장된 선택 > OS 설정. FOUC를 막기 위해 head에서 즉시 실행한다.
+  (() => {
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (stored === 'dark' || (!stored && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>

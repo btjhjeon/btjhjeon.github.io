@@ -1,0 +1,47 @@
+name: CI
+
+# Astro 사이트의 빌드·타입·번역 정합성을 검증한다. 배포는 하지 않는다.
+#
+# 이 저장소의 루트가 곧 Astro 프로젝트 루트라고 가정한다.
+# (package.json, astro.config.mjs, .nvmrc 가 루트에 있다)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check content translations
+        run: npm run check:i18n
+
+      # build 스크립트가 astro check를 포함하므로 타입 검사까지 함께 수행된다.
+      - name: Build
+        run: npm run build
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7

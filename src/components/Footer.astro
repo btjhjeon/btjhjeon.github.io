@@ -1,0 +1,34 @@
+---
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import { meta, socialLinks } from '../site.config';
+
+interface Props {
+  locale: Locale;
+  /** 빌드 시점의 연도. 페이지에서 주입한다 (스크립트 상단에서 계산). */
+  year: number;
+}
+
+const { locale, year } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<footer class="mt-16 border-t" style="border-color: var(--color-border);">
+  <div
+    class="mx-auto flex max-w-3xl flex-col gap-3 px-5 py-6 text-sm sm:flex-row sm:items-center sm:justify-between"
+    style="color: var(--color-muted);"
+  >
+    <p>&copy; {year} {meta[locale].title}. {t('footer.rights')}</p>
+    <ul class="flex flex-wrap items-center gap-4">
+      {
+        socialLinks.map((link) => (
+          <li>
+            <a href={link.url} rel="me noopener" class="no-underline hover:underline">
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>

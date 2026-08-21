@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import { localizePath, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import { formatPeriod } from '../utils/date';
+import { slugOf, type ProjectEntry } from '../utils/collections';
+
+interface Props {
+  locale: Locale;
+  entry: ProjectEntry;
+}
+
+const { locale, entry } = Astro.props;
+const t = useTranslations(locale);
+
+const slug = slugOf(entry.id);
+const href = localizePath(locale, `/projects/${slug}`);
+const period = formatPeriod(
+  entry.data.startDate,
+  entry.data.endDate,
+  locale,
+  t('project.ongoing'),
+);
+---
+
+<article
+  class="rounded-lg border p-5 transition-colors hover:bg-[var(--color-surface)]"
+  style="border-color: var(--color-border);"
+>
+  <div class="flex items-start gap-4">
+    {
+      entry.data.logo && (
+        <Image
+          src={entry.data.logo}
+          alt=""
+          width={72}
+          densities={[1, 2]}
+          loading="lazy"
+          class="shrink-0 rounded"
+        />
+      )
+    }
+
+    <div class="min-w-0 flex-1">
+      <h3 class="text-lg font-semibold tracking-tight">
+        <a href={href} class="no-underline" style="color: var(--color-fg);">
+          {entry.data.title}
+        </a>
+      </h3>
+
+      <p class="mt-0.5 text-sm" style="color: var(--color-muted);">
+        {period}{entry.data.org ? ` · ${entry.data.org}` : ''}
+      </p>
+
+      <p class="mt-2 text-sm leading-relaxed">{entry.data.summary}</p>
+
+      {
+        entry.data.tags.length > 0 && (
+          <ul class="mt-3 flex flex-wrap gap-1.5">
+            {entry.data.tags.map((tag) => (
+              <li
+                class="rounded-full border px-2 py-0.5 text-xs"
+                style="border-color: var(--color-border); color: var(--color-muted);"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</article>

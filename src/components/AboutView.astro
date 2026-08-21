@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import profile from '../assets/profile.png';
+import { localizePath, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { meta } from '../site.config';
+import { getPage, getProjects } from '../utils/collections';
+import { toISODate } from '../utils/date';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const m = meta[locale];
+
+const page = await getPage(locale, 'about');
+if (!page) throw new Error(`about page missing for locale "${locale}"`);
+const { Content } = await render(page);
+
+// 홈에는 최근 프로젝트 3개만 노출한다.
+const recent = (await getProjects(locale)).slice(0, 3);
+---
+
+<BaseLayout locale={locale} path="/" description={page.data.description}>
+  <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+    <Image
+      src={profile}
+      alt={m.title}
+      width={128}
+      densities={[1, 2]}
+      loading="eager"
+      class="w-28 shrink-0 rounded-full border"
+      style="border-color: var(--color-border);"
+    />
+    <div>
+      <h1 class="text-2xl font-bold tracking-tight">{m.title}</h1>
+      <p class="mt-1" style="color: var(--color-muted);">{m.tagline}</p>
+      <p class="mt-0.5 text-sm" style="color: var(--color-muted);">{m.affiliation}</p>
+      <p class="mt-0.5 text-sm" style="color: var(--color-muted);">{m.location}</p>
+    </div>
+  </div>
+
+  <div class="prose-content mt-10">
+    <Content />
+  </div>
+
+  {
+    recent.length > 0 && (
+      <section class="mt-14">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 class="text-xl font-semibold tracking-tight">{t('projects.recent')}</h2>
+          <a href={localizePath(locale, '/projects/')} class="text-sm no-underline hover:underline">
+            {t('projects.viewAll')} →
+          </a>
+        </div>
+        <div class="mt-5 flex flex-col gap-4">
+          {recent.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    page.data.updated && (
+      <p class="mt-14 text-sm" style="color: var(--color-muted);">
+        {t('about.updated')}:{' '}
+        <time datetime={toISODate(page.data.updated)}>{toISODate(page.data.updated)}</time>
+      </p>
+    )
+  }
+</BaseLayout>

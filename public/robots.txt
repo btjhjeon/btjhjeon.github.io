@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://btjhjeon.github.io/sitemap-index.xml
