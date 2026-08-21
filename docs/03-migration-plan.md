@@ -9,8 +9,9 @@
 | 2 — 콘텐츠 모델 | ✅ 완료 | 스키마·조회 헬퍼·카드/상세 뷰 |
 | 3 — 콘텐츠 이전 | ✅ 완료 | 프로젝트 2개 × 2 locale, About × 2 locale, 이미지 선별 이전 |
 | 4 — 부가 기능 | ◐ 부분 | sitemap·robots·리다이렉트·다크모드·번역 정합성 검사 완료. OG 이미지·Lighthouse 미확인 |
+| 환경 고정 | ✅ 완료 | Node 22.23.2로 로컬·CI 일치 (`.nvmrc` + `mise.toml`) |
 | CI/CD | ✅ 완료 | `ci.yml`(검증) + `deploy.yml`(배포, 수동 트리거). [§CI/CD](#cicd-워크플로) |
-| 5 — 컷오버 | ◐ 진행 중 | 로컬 repo 초기화 완료. **repo 생성·rename·Pages 설정은 GitHub 권한이 필요해 수동 진행** |
+| 5 — 컷오버 | ✅ 완료 | 이름 인수 완료. `https://btjhjeon.github.io/` 라이브 |
 | 6 — 이후 확장 | ⬜ 문서화만 | |
 
 **현재 로컬에서 확인 가능하다.**
@@ -143,7 +144,7 @@ Phase 0-1의 결과와, **블로그를 두지 않는다**는 결정을 함께 �
 ### 0-3. 환경 고정
 
 - [x] `.nvmrc`에 `22` 기록 (로컬 v25.2.1은 비-LTS. CI와 로컬을 22로 통일)
-- [ ] Node 22로 전환해 동작 확인 — **미완료.** 현재 로컬은 v25.2.1로 빌드했고 정상 동작하나, CI가 22를 쓰므로 로컬도 22로 맞춰 재확인해야 한다
+- [x] Node 22로 전환해 동작 확인 — mise로 22.23.2를 고정했다. **이 항목을 미룬 것이 실제 CI 실패로 이어졌다** (아래 참조)
 - [x] `package-lock.json`이 커밋 대상인지 확인 — CI의 `npm ci`가 이를 요구한다
 
   독립 repo가 되면서 이 저장소의 `.gitignore`만 적용되므로 문제없다. 단일 저장소 안에 두는 구성이었다면 Jekyll 저장소 루트 `.gitignore`의 `package-lock.json` 규칙(슬래시가 없어 모든 깊이에 재귀 적용된다)이 이 파일을 무시해 CI가 실패했을 것이다. **독립 repo 분리로 자연히 해소된 문제다.**
@@ -186,6 +187,8 @@ Phase 0-1의 결과와, **블로그를 두지 않는다**는 결정을 함께 �
 
 ### 3-1. 이미지 선별 이전
 
+> 아카이브 방식으로 전환되면서 **기존 저장소에서 파일을 삭제하는 작업은 모두 무효**가 됐다(`[~]` 표시). 필요한 것만 이 저장소로 복사했고 나머지는 아카이브에 그대로 남는다.
+
 `images/`의 파일 29개 중 대부분이 템플릿 샘플이다. **일괄 복사하지 않는다.**
 
 - [x] `images/projects/VLM_A.X_logo_ko_4x3.png` → `src/content/projects/_assets/ax-vl-logo.png`
@@ -194,7 +197,7 @@ Phase 0-1의 결과와, **블로그를 두지 않는다**는 결정을 함께 �
 - [x] `images/profile_jun.png` → `src/assets/profile.png`
 - [x] `images/favicon.svg` → `public/favicon.svg` (임시)
 - [ ] **favicon 교체 필요** — 복사한 파일은 Academic Pages 템플릿의 Wikimedia 학사모 아이콘(`OOjs_UI_icon_academic-progressive`)이다. 동작은 하지만 수천 개 Academic Pages 사이트와 공유하는 템플릿 아이덴티티이므로 개인 아이콘으로 교체한다. 나머지 favicon(`.ico`, `-*.png`, `apple-touch-icon`, `manifest.json`)은 교체 시점에 함께 정리한다
-- [ ] 나머지 전부 폐기 (`500x300.png`, `image-alignment-*.jpg`, `foo-bar-identity*.jpg`, `bio-photo*.jpg`, `homepage.png`, `paragraph-*.png`, `editing-talk.png`, `site-logo.png`, `themes/`, `3953273590_704e3899d5_m.jpg`)
+- [~] (무효) 나머지 전부 폐기 (`500x300.png`, `image-alignment-*.jpg`, `foo-bar-identity*.jpg`, `bio-photo*.jpg`, `homepage.png`, `paragraph-*.png`, `editing-talk.png`, `site-logo.png`, `themes/`, `3953273590_704e3899d5_m.jpg`)
 
 ### 3-2. 프로젝트 2개 이전 — locale 2종이므로 총 4파일
 
@@ -219,7 +222,7 @@ Phase 0-1의 결과와, **블로그를 두지 않는다**는 결정을 함께 �
 
 ### 3-4. 파일 자산
 
-- [ ] `files/`의 7개 PDF/BibTeX는 **전부 Academic Pages 템플릿 샘플**(`paper1.pdf`, `slides1.pdf`, `bibtex1.bib` 등) → 폐기
+- [~] (무효) `files/`의 7개 PDF/BibTeX는 전부 Academic Pages 템플릿 샘플 → 아카이브 repo에 그대로 남는다. 이 저장소로 가져오지 않았다
 - [ ] 실제 논문 PDF를 올릴 계획이면 `public/files/`에 새로 배치
 
 완료 기준: `/`, `/ko/`, `/projects/`, `/ko/projects/`, 프로젝트 상세 4개(2 slug × 2 locale)가 실콘텐츠로 렌더된다.
@@ -305,51 +308,70 @@ git remote add origin git@github.com:btjhjeon/btjhjeon.github.io-new.git
 git push -u origin main
 ```
 
-- [ ] 새 repo 생성 (임시 이름, README·.gitignore 자동 생성 **끄기** — 초기 커밋과 충돌한다)
-- [ ] 푸시
-- [ ] Actions 탭에서 `CI` 워크플로가 자동 실행되어 통과하는지 확인
+- [x] 새 repo 생성 (임시 이름, README·.gitignore 자동 생성 **끄기** — 초기 커밋과 충돌한다)
+- [x] 푸시
+- [x] Actions 탭에서 `CI` 워크플로가 자동 실행되어 통과하는지 확인
 
 ### 5-3. Pages 설정 및 파이프라인 검증
 
-- [ ] Settings → Pages → Source를 **"GitHub Actions"**로 전환
-- [ ] Actions → `Deploy to GitHub Pages` → **Run workflow** 수동 실행
-- [ ] 워크플로 성공 확인
+- [x] Settings → Pages → Source를 **"GitHub Actions"**로 전환
+- [x] Actions → `Deploy to GitHub Pages` → **Run workflow** 수동 실행
+- [x] 워크플로 성공 확인
 
 이 시점의 URL은 `https://btjhjeon.github.io/btjhjeon.github.io-new/`이며 **프로젝트 사이트**다. `base`를 설정하지 않았으므로 **CSS·이미지가 깨져 보이는 것이 정상이다.** 여기서 확인할 것은 배포가 완료되는지 여부뿐이다.
 
 ### 5-4. 이름 교체 (다운타임 시작)
 
-- [ ] 기존 `btjhjeon/btjhjeon.github.io` → `btjhjeon/jekyll-archive`로 rename
-- [ ] 아카이브 repo의 Settings → Pages를 **Disabled**로 (하위 경로에 잔존해 혼동을 일으키지 않게)
-- [ ] `btjhjeon/btjhjeon.github.io-new` → `btjhjeon/btjhjeon.github.io`로 rename
-- [ ] 로컬 remote 갱신
+- [x] 기존 `btjhjeon/btjhjeon.github.io` → `btjhjeon/jekyll-archive`로 rename
+- [x] 아카이브 repo의 Pages 비활성 확인 — **애초에 활성화된 적이 없었다.** Pages API가 404이고 `https://btjhjeon.github.io/jekyll-archive/`도 404다. 조치 불필요
+- [x] `btjhjeon/btjhjeon.github.io-new` → `btjhjeon/btjhjeon.github.io`로 rename
+- [x] 로컬 remote 갱신
 
   ```bash
   git remote set-url origin git@github.com:btjhjeon/btjhjeon.github.io.git
   ```
 
 - [ ] 아카이브 repo를 clone해둔 다른 로컬이 있으면 그쪽 remote도 갱신 (자동 리다이렉트는 이름 재사용으로 죽는다 — [§전략](#대가) 참조)
-- [ ] Actions → `Deploy to GitHub Pages` 재실행
+- [x] Actions → `Deploy to GitHub Pages` 재실행
 
 ### 5-5. 라이브 검증
 
-- [ ] `https://btjhjeon.github.io/` — 영어 홈
-- [ ] `/ko/` — 한국어 홈
-- [ ] `/projects/`, `/ko/projects/` — 목록
-- [ ] `/projects/a-x-4-0-vl-light/`, `/ko/projects/a-x-4-0-vl-light/` — 상세
-- [ ] `/projects/adot-persona-dialogue/`, `/ko/projects/adot-persona-dialogue/`
-- [ ] 리다이렉트: `/projects/VLM` → `/projects/a-x-4-0-vl-light`
-- [ ] 리다이렉트: `/projects/Adot_personalization` → `/projects/adot-persona-dialogue`
-- [ ] 리다이렉트: `/about`, `/about.html` → `/`
-- [ ] `/sitemap-index.xml`
-- [ ] CSS·이미지가 정상 로드되는지 (여기서 깨지면 `base`나 `site` 설정 문제다)
-- [ ] 언어 스위처가 양방향으로 동작하는지
+- [x] `https://btjhjeon.github.io/` — 영어 홈
+- [x] `/ko/` — 한국어 홈
+- [x] `/projects/`, `/ko/projects/` — 목록
+- [x] `/projects/a-x-4-0-vl-light/`, `/ko/projects/a-x-4-0-vl-light/` — 상세
+- [x] `/projects/adot-persona-dialogue/`, `/ko/projects/adot-persona-dialogue/`
+- [x] 리다이렉트: `/projects/VLM` → `/projects/a-x-4-0-vl-light`
+- [x] 리다이렉트: `/projects/Adot_personalization` → `/projects/adot-persona-dialogue`
+- [x] 리다이렉트: `/about`, `/about.html` → `/`
+- [x] `/sitemap-index.xml`
+- [x] CSS·이미지가 정상 로드되는지 (여기서 깨지면 `base`나 `site` 설정 문제다)
+- [x] 언어 스위처가 양방향으로 동작하는지
 
 ### 5-6. 자동 배포 활성화
 
-- [ ] `.github/workflows/deploy.yml`의 `push:` 트리거 주석 해제 후 커밋·푸시
+- [x] `.github/workflows/deploy.yml`의 `push:` 트리거 주석 해제 후 커밋·푸시
 - [ ] 푸시로 배포가 자동 실행되는지 확인
 - [ ] Google Search Console에 sitemap 제출
+
+### 실행 기록에서 드러난 것
+
+**1. 기존 사이트는 이미 404였다.** rename 직전에 확인한 `https://btjhjeon.github.io/`는 GitHub의 "Site not found"를 반환했고, Pages API도 404였다. Jekyll 사이트는 서비스되고 있지 않았다. 결과적으로 **다운타임이 0이었다.**
+
+이는 "기존 URL 보존"의 근거를 약화시킨다 — 살아 있지 않았으므로 유입 링크나 검색 색인 자산이 없다. 다만 리다이렉트를 둔 것이 해가 되지는 않으며, 영어를 무접두 경로에 두는 결정 자체는 여전히 타당하다.
+
+**2. Node 버전 불일치가 CI를 두 번 실패시켰다.** 로컬 npm 11.6.2(Node 25)로 만든 lockfile을 런너의 npm 10.9.8(Node 22)이 out-of-sync로 판정했다. `sharp`와 `@tailwindcss/oxide`가 optional로 싣는 wasm32-wasi 폴백 패키지의 하위 의존성(`@emnapi/core`, `@emnapi/runtime`)을 두 npm 메이저가 다르게 해석한다.
+
+```
+npm error Missing: @emnapi/core@1.11.3 from lock file
+npm error Missing: @emnapi/runtime@1.11.3 from lock file
+```
+
+`--os=linux --cpu=x64`로 재생성해도 해결되지 않았다. **로컬 `npm ci --dry-run --os=linux`는 통과했지만 실제 CI는 실패했다** — 플랫폼 플래그는 설치 가능성 필터일 뿐 npm 메이저 간 해석 차이를 재현하지 못한다.
+
+해결: CI와 동일한 npm 10.9.8로 lockfile을 재생성하고, `.nvmrc`와 `mise.toml`에 **정확한 패치 버전(22.23.2)**을 고정했다. `mise`는 `.nvmrc`를 읽지 않아(Node 18로 폴백) `mise.toml`이 별도로 필요했다.
+
+**3. 액션 버전이 크게 뒤처져 있었다.** 처음 작성한 `@v4`/`@v3`는 deprecated된 Node 20 런타임을 타깃한다는 경고를 냈다. 현재 메이저(`checkout@v7`, `setup-node@v7`, `upload-artifact@v7`, `upload-pages-artifact@v5`, `deploy-pages@v5`)로 올려 경고를 없앴다.
 
 ### 롤백
 

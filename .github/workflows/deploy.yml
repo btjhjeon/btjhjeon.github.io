@@ -11,17 +11,10 @@ name: Deploy to GitHub Pages
 #    배포되어 URL이 `https://<사용자명>.github.io/<저장소명>/` 가 된다.
 #    그 경우 astro.config.mjs 에 `base: '/<저장소명>'` 를 설정해야 링크와 에셋이 깨지지 않는다.
 #
-# 순서:
-#   1. Settings → Pages → Source 를 "GitHub Actions" 로 전환
-#   2. Actions 탭에서 이 워크플로를 수동 실행(Run workflow)해 배포 확인
-#   3. 확인되면 아래 push 트리거의 주석을 해제해 자동 배포로 전환
-
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-
-  # 배포가 확인되면 주석을 해제한다.
-  # push:
-  #   branches: [main, master]
 
 permissions:
   contents: read
