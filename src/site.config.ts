@@ -31,18 +31,18 @@ export const meta: Record<Locale, {
 }> = {
   en: {
     title: 'Jaehyun Jun',
-    tagline: 'AI Engineer',
+    tagline: 'AI/ML Engineer',
     description:
-      'AI Engineer at SK Telecom, Model Alignment team. Building multimodal large language models, with a research background in visual question answering.',
-    affiliation: 'Model Alignment team, SK Telecom',
+      'AI/ML Engineer at AWS Professional Services. Building AI agents around self-improvement and loop engineering, working toward physical AI.',
+    affiliation: 'AWS Professional Services',
     location: 'Seoul, Republic of Korea',
   },
   ko: {
     title: '전재현',
-    tagline: 'AI 엔지니어',
+    tagline: 'AI/ML 엔지니어',
     description:
-      'SK텔레콤 Model Alignment 팀 AI 엔지니어. Visual Question Answering 연구를 기반으로 멀티모달 대규모 언어모델을 개발합니다.',
-    affiliation: 'SK텔레콤 Model Alignment 팀',
+      'AWS Professional Services AI/ML 엔지니어. self-improvement와 loop engineering을 중심으로 AI 에이전트를 개발하며 physical AI로의 확장을 지향합니다.',
+    affiliation: 'AWS Professional Services',
     location: '대한민국 서울',
   },
 };

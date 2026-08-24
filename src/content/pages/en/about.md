@@ -1,22 +1,32 @@
 ---
 title: "About"
-description: "AI Engineer at SK Telecom, Model Alignment team. Building multimodal large language models, with a research background in visual question answering."
-updated: 2026-08-17
+description: "AI/ML Engineer at AWS Professional Services. Building AI agents around self-improvement and loop engineering, working toward physical AI."
+updated: 2026-08-22
 ---
 
-My work focuses on the development of Multimodal Large Language Models (MLLMs), leveraging a research foundation in Visual Question Answering (VQA). My expertise spans both computer vision and language modeling:
+I build **AI agents** at AWS Professional Services. What holds my attention is **self-improvement** — loops where a system evaluates its own output and refines it — and the **loop engineering** that makes those cycles converge rather than drift.
 
-- In **computer vision**, my experience lies in object detection and segmentation.
-- In **language modeling**, I have hands-on experience with personalized dialogue, instruction tuning, and the practical aspects of LLM development.
+Where I want to take this is **physical AI**. A self-improving loop is comparatively easy when feedback is cheap and text-shaped. It gets hard when the signal comes from the physical world, where observations are noisy, partial, and costly to collect. That is where loop engineering stops being plumbing and becomes the problem worth solving.
 
-Looking ahead, my goal is to advance MLLMs toward omni-modal architectures and harness them to build sophisticated AI agents.
+My **multimodal modeling** background is what makes that direction tractable. An agent acting in the physical world has to ground its decisions in perception, not only in language:
+
+- **Vision-language models** — developed VLMs end to end: training pipelines, architecture selection, and evaluation benchmarks.
+- **Visual grounding** — research in visual question answering (VQA), alongside object detection and segmentation.
+- **Language modeling** — personalized dialogue, instruction tuning, and shipping LLM features to production.
 
 ## Work Experience
 
+### Amazon Web Services
+
+*2026 – Present*
+AI/ML Engineer, AWS Professional Services
+Building AI agents for customers, focused on self-improvement and loop engineering.
+
 ### SK Telecom
 
-*2019 – Present* (joined from SK T-Brain)
+*2019 – 2026* (joined from SK T-Brain)
 AI Engineer, Model Alignment team
+Developed multimodal large language models and personalized dialogue systems. See [Projects](/projects/) for details.
 
 ### Samsung Electronics Co., Ltd.
 
