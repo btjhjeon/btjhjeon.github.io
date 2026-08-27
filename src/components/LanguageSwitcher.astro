@@ -19,7 +19,7 @@ const href = other === defaultLocale ? path : `/${other}${path}`;
   href={href}
   aria-label={t('lang.switchAria')}
   hreflang={other === 'ko' ? 'ko-KR' : 'en'}
-  class="rounded border px-2 py-1 text-sm transition-colors hover:bg-[var(--color-surface)]"
+  class="utility-button rounded-full px-2.5 py-2 text-xs font-semibold no-underline transition-all sm:px-3"
   style="border-color: var(--color-border); color: var(--color-muted);"
 >
   {t('lang.switch')}

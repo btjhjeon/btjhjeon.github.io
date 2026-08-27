@@ -24,29 +24,33 @@ const isCurrent = (target: string) =>
 ---
 
 <header
-  class="border-b"
+  class="site-header sticky top-0 z-40 border-b"
   style="border-color: var(--color-border);"
 >
-  <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-5 py-4">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
     <a
       href={localizePath(locale, '/')}
-      class="font-semibold tracking-tight no-underline"
+      class="group flex items-center gap-2.5 font-semibold tracking-tight no-underline"
       style="color: var(--color-fg);"
     >
-      {meta[locale].title}
+      <span class="brand-mark" aria-hidden="true">J</span>
+      <span>{meta[locale].title}</span>
     </a>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2 sm:gap-3">
       <nav aria-label="Main">
-        <ul class="flex items-center gap-4 text-sm">
+        <ul class="nav-pill flex items-center gap-0.5 p-1 text-sm">
           {
             nav.map((item) => (
               <li>
                 <a
                   href={localizePath(locale, item.path)}
                   aria-current={isCurrent(item.path) ? 'page' : undefined}
-                  class="no-underline transition-colors"
-                  style={`color: ${isCurrent(item.path) ? 'var(--color-fg)' : 'var(--color-muted)'}; ${isCurrent(item.path) ? 'font-weight:600;' : ''}`}
+                  class:list={[
+                    'block rounded-full px-3 py-1.5 no-underline transition-all',
+                    isCurrent(item.path) ? 'nav-link-current font-semibold' : 'hover:text-[var(--color-fg)]',
+                  ]}
+                  style={`color: ${isCurrent(item.path) ? 'var(--color-fg)' : 'var(--color-muted)'};`}
                 >
                   {t(item.key)}
                 </a>
@@ -56,9 +60,9 @@ const isCurrent = (target: string) =>
         </ul>
       </nav>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5">
         <LanguageSwitcher locale={locale} path={path} />
-        <ThemeToggle />
+        <ThemeToggle locale={locale} />
       </div>
     </div>
   </div>

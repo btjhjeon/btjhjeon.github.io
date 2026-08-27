@@ -21,53 +21,79 @@ const period = formatPeriod(
   locale,
   t('project.ongoing'),
 );
+
+let hash = 0;
+for (const char of slug) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+const hue = 215 + (hash % 85);
+const visibleTags = entry.data.tags.slice(0, 3);
+const remainingTags = entry.data.tags.length - visibleTags.length;
 ---
 
-<article
-  class="rounded-lg border p-5 transition-colors hover:bg-[var(--color-surface)]"
-  style="border-color: var(--color-border);"
->
-  <div class="flex items-start gap-4">
-    {
-      entry.data.logo && (
-        <Image
-          src={entry.data.logo}
-          alt=""
-          width={72}
-          densities={[1, 2]}
-          loading="lazy"
-          class="shrink-0 rounded"
-        />
-      )
-    }
-
-    <div class="min-w-0 flex-1">
-      <h3 class="text-lg font-semibold tracking-tight">
-        <a href={href} class="no-underline" style="color: var(--color-fg);">
-          {entry.data.title}
-        </a>
-      </h3>
-
-      <p class="mt-0.5 text-sm" style="color: var(--color-muted);">
-        {period}{entry.data.org ? ` · ${entry.data.org}` : ''}
-      </p>
-
-      <p class="mt-2 text-sm leading-relaxed">{entry.data.summary}</p>
-
+<article class="project-card group h-full overflow-hidden rounded-[1.5rem] border" style={`--card-hue: ${hue};`}>
+  <a href={href} class="flex h-full flex-col no-underline" style="color: var(--color-fg);">
+    <div class="project-visual relative aspect-[16/10] overflow-hidden">
       {
-        entry.data.tags.length > 0 && (
-          <ul class="mt-3 flex flex-wrap gap-1.5">
-            {entry.data.tags.map((tag) => (
-              <li
-                class="rounded-full border px-2 py-0.5 text-xs"
-                style="border-color: var(--color-border); color: var(--color-muted);"
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
+        entry.data.logo ? (
+          <div class="project-logo-stage grid h-full place-items-center p-8">
+            <span class="visual-grid" aria-hidden="true"></span>
+            <Image
+              src={entry.data.logo}
+              alt=""
+              width={140}
+              densities={[1, 2]}
+              loading="lazy"
+              class="relative z-10 max-h-24 w-auto rounded-xl object-contain transition-transform duration-500 group-hover:scale-105"
+            />
+          </div>
+        ) : entry.data.cover ? (
+          <Image
+            src={entry.data.cover}
+            alt=""
+            width={720}
+            loading="lazy"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+          />
+        ) : (
+          <div class="project-placeholder h-full p-7" aria-hidden="true">
+            <span class="placeholder-grid"></span>
+            <span class="placeholder-node placeholder-node-a"></span>
+            <span class="placeholder-node placeholder-node-b"></span>
+            <span class="placeholder-node placeholder-node-c"></span>
+            <span class="placeholder-line placeholder-line-a"></span>
+            <span class="placeholder-line placeholder-line-b"></span>
+            <p class="relative z-10 text-xs font-bold uppercase tracking-[0.18em]">AI · Migration</p>
+          </div>
         )
       }
+      <span class="project-arrow absolute top-4 right-4 grid size-9 place-items-center rounded-full" aria-hidden="true">↗</span>
     </div>
-  </div>
+
+    <div class="flex flex-1 flex-col p-5 sm:p-6">
+      <p class="text-xs font-semibold uppercase tracking-[0.12em]" style="color: var(--color-muted);">
+        {period}{entry.data.org ? ` · ${entry.data.org}` : ''}
+      </p>
+      <h3 class="mt-3 text-xl font-bold leading-snug tracking-tight">{entry.data.title}</h3>
+      <p class="project-summary mt-3 text-sm leading-relaxed" style="color: var(--color-muted);">
+        {entry.data.summary}
+      </p>
+
+      <div class="mt-auto pt-5">
+        {
+          visibleTags.length > 0 && (
+            <ul class="flex flex-wrap gap-1.5">
+              {visibleTags.map((tag) => (
+                <li class="project-tag rounded-full px-2.5 py-1 text-[0.7rem] font-medium">{tag}</li>
+              ))}
+              {remainingTags > 0 && (
+                <li class="project-tag rounded-full px-2.5 py-1 text-[0.7rem] font-medium">+{remainingTags}</li>
+              )}
+            </ul>
+          )
+        }
+        <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold" style="color: var(--color-accent);">
+          {t('project.view')} <span aria-hidden="true">→</span>
+        </span>
+      </div>
+    </div>
+  </a>
 </article>

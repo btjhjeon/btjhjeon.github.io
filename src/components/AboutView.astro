@@ -5,7 +5,7 @@ import profile from '../assets/profile.png';
 import { localizePath, type Locale } from '../i18n/config';
 import { useTranslations } from '../i18n/ui';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { meta } from '../site.config';
+import { meta, socialLinks } from '../site.config';
 import { getPage, getProjects } from '../utils/collections';
 import { toISODate } from '../utils/date';
 import ProjectCard from './ProjectCard.astro';
@@ -17,6 +17,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const m = meta[locale];
+const linkedIn = socialLinks.find((link) => link.label === 'LinkedIn');
 
 const page = await getPage(locale, 'about');
 if (!page) throw new Error(`about page missing for locale "${locale}"`);
@@ -26,48 +27,127 @@ const { Content } = await render(page);
 const recent = (await getProjects(locale)).slice(0, 3);
 ---
 
-<BaseLayout locale={locale} path="/" description={page.data.description}>
-  <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
-    <Image
-      src={profile}
-      alt={m.title}
-      width={128}
-      densities={[1, 2]}
-      loading="eager"
-      class="w-28 shrink-0 rounded-full border"
-      style="border-color: var(--color-border);"
-    />
-    <div>
-      <h1 class="text-2xl font-bold tracking-tight">{m.title}</h1>
-      <p class="mt-1" style="color: var(--color-muted);">{m.tagline}</p>
-      <p class="mt-0.5 text-sm" style="color: var(--color-muted);">{m.affiliation}</p>
-      <p class="mt-0.5 text-sm" style="color: var(--color-muted);">{m.location}</p>
-    </div>
-  </div>
+<BaseLayout locale={locale} path="/" description={page.data.description} wide>
+  <section class="home-hero relative overflow-hidden rounded-[2rem] border px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+    <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
 
-  <div class="prose-content mt-10">
-    <Content />
-  </div>
+    <div class="relative grid items-center gap-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(260px,0.7fr)]">
+      <div>
+        <p class="eyebrow">{m.title} · {m.tagline}</p>
+        <h1 class="hero-title mt-5 max-w-3xl">
+          {page.data.heroTitle ?? page.data.title}
+        </h1>
+        <p class="hero-description mt-6 max-w-2xl">
+          {page.data.heroDescription ?? page.data.description}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={localizePath(locale, '/projects/')} class="button button-primary">
+            {t('about.viewProjects')}
+            <span aria-hidden="true">↗</span>
+          </a>
+          {
+            linkedIn && (
+              <a href={linkedIn.url} rel="me noopener" class="button button-secondary">
+                {t('about.connect')}
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <aside class="profile-card justify-self-stretch rounded-[1.75rem] border p-6">
+        <div class="profile-image-wrap mx-auto">
+          <Image
+            src={profile}
+            alt={m.title}
+            width={176}
+            densities={[1, 2]}
+            loading="eager"
+            class="profile-image"
+          />
+          <span class="profile-status" aria-hidden="true"></span>
+        </div>
+        <div class="mt-5 text-center">
+          <h2 class="text-xl font-bold tracking-tight">{m.title}</h2>
+          <p class="mt-1 text-sm font-medium" style="color: var(--color-accent);">{m.affiliation}</p>
+          <p class="mt-1 text-sm" style="color: var(--color-muted);">{m.location}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    page.data.stats.length > 0 && (
+      <dl class="impact-grid relative -mt-1 grid overflow-hidden rounded-b-[1.5rem] border-x border-b sm:grid-cols-3">
+        {page.data.stats.map((stat) => (
+          <div class="impact-item px-6 py-5 sm:px-8">
+            <dd class="text-2xl font-bold tracking-tight sm:text-3xl">{stat.value}</dd>
+            <dt class="mt-1 text-sm" style="color: var(--color-muted);">{stat.label}</dt>
+          </div>
+        ))}
+      </dl>
+    )
+  }
 
   {
     recent.length > 0 && (
-      <section class="mt-14">
-        <div class="flex items-baseline justify-between gap-4">
-          <h2 class="text-xl font-semibold tracking-tight">{t('projects.recent')}</h2>
-          <a href={localizePath(locale, '/projects/')} class="text-sm no-underline hover:underline">
+      <section class="section-block">
+        <div class="section-heading flex items-end justify-between gap-6">
+          <div>
+            <p class="eyebrow">{t('projects.eyebrow')}</p>
+            <h2 class="section-title mt-3">{t('about.work')}</h2>
+            <p class="section-description mt-3">{t('about.workDescription')}</p>
+          </div>
+          <a href={localizePath(locale, '/projects/')} class="section-link hidden shrink-0 sm:inline-flex">
             {t('projects.viewAll')} →
           </a>
         </div>
-        <div class="mt-5 flex flex-col gap-4">
+        <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {recent.map((entry) => <ProjectCard locale={locale} entry={entry} />)}
         </div>
+        <a href={localizePath(locale, '/projects/')} class="section-link mt-6 inline-flex sm:hidden">
+          {t('projects.viewAll')} →
+        </a>
       </section>
     )
   }
 
   {
+    page.data.focus.length > 0 && (
+      <section class="section-block">
+        <p class="eyebrow">{t('about.focus')}</p>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          {page.data.focus.map((item, index) => (
+            <article class="focus-card rounded-[1.5rem] border p-6">
+              <span class="focus-number" aria-hidden="true">0{index + 1}</span>
+              <h2 class="mt-8 text-lg font-bold tracking-tight">{item.title}</h2>
+              <p class="mt-3 text-sm leading-relaxed" style="color: var(--color-muted);">
+                {item.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section-block career-section grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+    <div class="career-intro lg:sticky lg:top-28 lg:self-start">
+      <p class="eyebrow">{t('about.career')}</p>
+      <p class="mt-4 text-sm leading-relaxed" style="color: var(--color-muted);">
+        {t('about.careerDescription')}
+      </p>
+    </div>
+    <div class="prose-content resume-content min-w-0">
+      <Content />
+    </div>
+  </section>
+
+  {
     page.data.updated && (
-      <p class="mt-14 text-sm" style="color: var(--color-muted);">
+      <p class="mt-20 border-t pt-6 text-sm" style="border-color: var(--color-border); color: var(--color-muted);">
         {t('about.updated')}:{' '}
         <time datetime={toISODate(page.data.updated)}>{toISODate(page.data.updated)}</time>
       </p>

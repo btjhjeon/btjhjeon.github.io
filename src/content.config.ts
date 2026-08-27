@@ -77,6 +77,25 @@ const pages = defineCollection({
     title: z.string(),
     description: z.string(),
     updated: z.coerce.date().optional(),
+    /** About hero. 다른 단일 페이지에서는 생략할 수 있다. */
+    heroTitle: z.string().optional(),
+    heroDescription: z.string().optional(),
+    focus: z
+      .array(
+        z.object({
+          title: z.string(),
+          description: z.string(),
+        }),
+      )
+      .default([]),
+    stats: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string(),
+        }),
+      )
+      .default([]),
   }),
 });
 

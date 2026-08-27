@@ -13,12 +13,15 @@ const { locale, year } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<footer class="mt-16 border-t" style="border-color: var(--color-border);">
+<footer class="mt-20 border-t" style="border-color: var(--color-border);">
   <div
-    class="mx-auto flex max-w-3xl flex-col gap-3 px-5 py-6 text-sm sm:flex-row sm:items-center sm:justify-between"
+    class="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-8 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-8"
     style="color: var(--color-muted);"
   >
-    <p>&copy; {year} {meta[locale].title}. {t('footer.rights')}</p>
+    <div class="flex items-center gap-2.5">
+      <span class="brand-mark brand-mark-small" aria-hidden="true">J</span>
+      <p>&copy; {year} {meta[locale].title}. {t('footer.rights')}</p>
+    </div>
     <ul class="flex flex-wrap items-center gap-4">
       {
         socialLinks.map((link) => (

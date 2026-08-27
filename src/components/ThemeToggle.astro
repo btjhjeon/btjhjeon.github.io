@@ -1,15 +1,29 @@
 ---
-// 라이트/다크 전환 버튼. 선택은 localStorage에 저장하고, 초기 적용은 BaseHead의 인라인 스크립트가 담당한다.
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <button
   id="theme-toggle"
   type="button"
-  aria-label="Toggle color scheme"
-  class="rounded border px-2 py-1 text-sm transition-colors hover:bg-[var(--color-surface)]"
+  aria-label={t('theme.toggle')}
+  class="utility-button grid size-9 place-items-center rounded-full transition-all"
   style="border-color: var(--color-border); color: var(--color-muted);"
 >
-  <span aria-hidden="true" data-theme-icon>◐</span>
+  <svg class="theme-icon theme-icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <circle cx="12" cy="12" r="3.5"></circle>
+    <path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.72 5.28l-1.42 1.42M6.7 17.3l-1.42 1.42M18.72 18.72l-1.42-1.42M6.7 6.7 5.28 5.28"></path>
+  </svg>
+  <svg class="theme-icon theme-icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"></path>
+  </svg>
 </button>
 
 <script is:inline>
